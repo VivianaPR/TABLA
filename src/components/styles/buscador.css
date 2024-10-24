@@ -1,0 +1,16 @@
+.input-with-icon {
+    padding-right: 40px;
+}
+
+.input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: #303D50;
+}
+
+.search-container{
+    width: 100%;
+}

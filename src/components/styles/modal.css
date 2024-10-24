@@ -1,0 +1,155 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    width: 42%;
+    height: 95vh;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateX(100%);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    border-radius: 10px;
+    margin: 1.75em;
+}
+
+.modal-container.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.modal-container.hide {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.modal_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #303D50;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal_body {
+    padding: 35px;
+    height: 87.5vh;
+    overflow-y: auto;
+}
+
+.close_button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: white;
+}
+
+.close_button:hover {
+    color: #D36269;
+}
+
+.unp-row-subtitle {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    min-height: fit-content;
+    justify-content: space-between;
+}
+
+.column-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin: 3rem 0;
+    overflow-y: auto;
+    padding: 10px 20px;
+    align-content: center;
+}
+
+.route-container {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 0.5rem;
+    cursor: pointer;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    box-shadow: 3px 3px 6px gainsboro;
+    border-radius: 8px;
+}
+
+.route-container:hover {
+    background-color: #303D50;
+    color: white;
+}
+
+.attachments-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    cursor: pointer;
+    align-items: center;
+    border-bottom: 1px solid gainsboro;
+    padding: 0.5rem 2rem;
+    height: 3rem;
+    justify-content: space-between;
+    width: 80%;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.attachments-container:hover {
+    background-color: #303D50;
+    color: white
+}
+
+.attachments-list-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    margin: 3rem 0;
+    align-items: center;
+}
+
+.icon-process-menu {
+    font-size: 25px;
+}
+
+.modal_body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal_body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal_body::-webkit-scrollbar-thumb {
+    background-color: #303D50;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+}
