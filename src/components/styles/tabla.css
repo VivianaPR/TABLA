@@ -8,7 +8,6 @@
 
 .table-scroll {
     flex-grow: 1;
-    /* Ocupa el espacio restante */
     overflow-y: auto;
     max-height: 73vh;
 }
@@ -61,17 +60,23 @@
     align-items: center;
 }
 
-.inputs-container{
+.inputs-container {
     display: flex;
     width: 40%;
 }
 
 .custom-button {
-    background-color: #303D50 ;
-    color: white ;
-    display: flex ;
-    flex-direction: row ;
+    background-color: #303D50;
+    color: white;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 0.5rem;
     margin-left: 1rem;
+}
+
+@media (min-width: 1280px) {
+    .table-scroll {
+        max-height: 66vh;
+    }
 }
