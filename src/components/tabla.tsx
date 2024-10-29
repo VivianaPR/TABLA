@@ -3,8 +3,8 @@ import { Table } from 'react-bootstrap';
 import { BusquedaInput } from './buscador';
 import { CustomModal } from './modal';
 import './styles/tabla.css';
+import logo from '../assets/logo.png'
 
-// Interfaz de las columnas
 interface Column {
     key: string;
     label: string;
@@ -12,28 +12,29 @@ interface Column {
     renderComponent?: (row: Record<string, any>) => React.ReactNode;
 }
 
-// Interfaz de los parámetros
 interface TableProps {
     columns: Column[];
     data: Array<Record<string, any>>;
     renderModalContent?: (row: Record<string, any>, column: Column) => React.ReactNode;
     totalDias?: number;
+    subtitle: string; 
+    extraInput?: React.ReactNode; 
 }
 
-const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias }) => {
+
+const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput }) => {
 
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [modalData, setModalData] = useState<{ row: Record<string, any>, column: Column } | null>(null);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [visibleData, setVisibleData] = useState<number>(10); // Inicializa con 10
-    const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+    const [visibleData, setVisibleData] = useState<number>(15);
+    const [hasMoreData, setHasMoreData] = useState<boolean>(data.length > 15);
 
-    // Ajusta visibleData si el número total de datos es menor a 10
     useEffect(() => {
-        if (data.length < 10) {
-            setVisibleData(data.length); // Si hay menos de 10 datos, inicializa visibleData con el total
-        }
-    }, [data.length]);
+        // Reinicia visibleData y hasMoreData solo cuando cambia el término de búsqueda
+        setVisibleData(15);
+        setHasMoreData(data.length > 15);
+    }, [searchTerm, data.length]);
 
     const filteredData = data.filter(row =>
         columns.some(column =>
@@ -43,13 +44,14 @@ const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalConten
 
     const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
         const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
+        // Verifica si estamos cerca del final del scroll para cargar más datos
         if (scrollHeight - scrollTop <= clientHeight + 50 && hasMoreData) {
             setVisibleData(prev => {
-                const newVisibleData = prev + 10; // Incrementa el número de elementos visibles en 10
+                const newVisibleData = prev + 5;
                 if (newVisibleData >= filteredData.length) {
-                    setHasMoreData(false); // No hay más datos para cargar
+                    setHasMoreData(false);
                 }
-                return newVisibleData;
+                return Math.min(newVisibleData, filteredData.length);
             });
         }
     };
@@ -75,19 +77,26 @@ const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalConten
     return (
         <div className='table_container'>
             <div className='unp-row'>
-                <BusquedaInput onSearch={setSearchTerm} />
+                <div className='title-container'>
+                    <img className='imgLogo' src={logo} alt="logo" />
+                    <span className='subtitle-logo'>{subtitle}</span>
+                </div>
+                <div className='inputs-container'>
+                    <BusquedaInput onSearch={setSearchTerm} />
+                    <div className='input-extra-container'>
+                        {extraInput} 
+                    </div>
+                </div>
             </div>
-
             <div
                 className='table-scroll'
                 onScroll={handleScroll}
-                style={{ maxHeight: '72vh', overflowY: 'auto' }}
             >
                 <Table striped hover responsive>
                     <thead>
-                        <tr>
+                        <tr >
                             {columns.map((column, index) => (
-                                <th key={index}>{column.label}</th>
+                                <th  key={index}>{column.label}</th>
                             ))}
                         </tr>
                     </thead>
@@ -106,14 +115,14 @@ const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalConten
                                         }}
                                         className={column.hasModal ? 'cell-with-modal' : ''}
                                     >
-                                        {column.renderComponent 
-                                            ? column.renderComponent(row) 
+                                        {column.renderComponent
+                                            ? column.renderComponent(row)
                                             : row[column.key]}
                                     </td>
                                 ))}
                             </tr>
                         ))}
-                        {visibleData < filteredData.length && (
+                        {hasMoreData && (
                             <tr>
                                 <td colSpan={columns.length} className="text-center">
                                     Cargando más datos...
@@ -142,4 +151,5 @@ const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalConten
 };
 
 export { BootstrapTable };
+
 
