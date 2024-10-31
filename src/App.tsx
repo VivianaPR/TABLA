@@ -1,8 +1,6 @@
 import './App.css';
 import { VentanaLienzo } from 'eco-unp/ui'
 import { BootstrapTable } from './components/tabla'
-import { Tabs } from 'react-bootstrap';
-import { TabVentana } from 'eco-unp/ui'
 import { FaUsers } from "react-icons/fa";
 
 function App() {
@@ -37,13 +35,13 @@ function App() {
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
     { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 10, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
-    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 10, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
+    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 17, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
-    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 10, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
+    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 35, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
-    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 10, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
+    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 25, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
-    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 10, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
+    { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 17, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
     { solicitud: 3, no_orden: "OTI02", nombre_evaluado: "Juan Díaz", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 10, poblacion: "AFRO", tipo_estudio: "A1", anexos: '7', extra: 'hola' },
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
@@ -101,20 +99,19 @@ function App() {
   );
 
   return (
-    <div className="App">
+    <div >
       <VentanaLienzo>
-        <Tabs defaultActiveKey="tab1">
-          <TabVentana eventKey={'tab1'} title={'Solicitudes'} >
-            <BootstrapTable
+        <div className='App'>
+        <BootstrapTable
               columns={columns}
               data={data}
               renderModalContent={renderModalContent}
               totalDias={30}
-              subtitle={'Solicitudes por asignar'}
-              extraInput={extraInput}
+              subtitle={'Subdirección de Evaluación de Riesgo'}
+              items='Ordenes de trabajo'
+              // extraInput={extraInput}
             />
-          </TabVentana>
-        </Tabs>
+        </div>
       </VentanaLienzo>
     </div>
   );
