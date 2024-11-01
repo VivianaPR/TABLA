@@ -136,7 +136,7 @@ thead tr th {
     color: #919191;
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1800px) {
     .table-scroll {
         max-height: 75vh;
     }
