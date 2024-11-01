@@ -29,6 +29,10 @@ const getCurrentYear = (): number => {
     return new Date().getFullYear();
 };
 
+const normalizeText = (text: string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+};
+
 export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items }) => {
 
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -47,7 +51,7 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
 
     const filteredData = data.filter(row =>
         columns.some(column =>
-            String(row[column.key]).toLowerCase().includes(searchTerm.toLowerCase())
+            normalizeText(String(row[column.key])).includes(normalizeText(searchTerm))
         )
     );
 
@@ -71,15 +75,15 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
         }
     };
 
-    const getBackgroundColor = (diasHabiles: number) => {
+    const getBackgroundAndTextColor = (diasHabiles: number) => {
         if (totalDias) {
             const porcentaje = (diasHabiles / totalDias) * 100;
-            if (porcentaje <= 25) return '#33A43B';
-            if (porcentaje <= 50) return '#F3F058';
-            if (porcentaje <= 75) return '#F68B43';
-            return '#F17171';
+            if (porcentaje <= 25) return { backgroundColor: '#3AB34A', color: '#FFFFFF' };
+            if (porcentaje <= 50) return { backgroundColor: '#F8EB10', color: '#000000' };
+            if (porcentaje <= 75) return { backgroundColor: '#F79122', color: '#000000' };
+            return { backgroundColor: '#E91720', color: '#FFFFFF' };
         }
-        return 'transparent';
+        return { backgroundColor: 'transparent', color: 'inherit' };
     };
 
     return (
@@ -146,12 +150,20 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                                                 >
                                                     {column.key === 'dias_habiles' ? (
                                                         <div style={{
-                                                            padding: '6px',
-                                                            borderRadius: '6px',
-                                                            backgroundColor: getBackgroundColor(row.dias_habiles),
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
                                                         }}>
-                                                            {row.dias_habiles}
+                                                            <div style={{
+                                                                padding: '8px',
+                                                                borderRadius: '100px',
+                                                                width: '40px',
+                                                                backgroundColor: getBackgroundAndTextColor(row.dias_habiles).backgroundColor,
+                                                                color: getBackgroundAndTextColor(row.dias_habiles).color,
+                                                            }}>
+                                                                <span>{row.dias_habiles}</span>
+                                                            </div>
                                                         </div>
+
                                                     ) : (
                                                         column.renderComponent
                                                             ? column.renderComponent(row)
