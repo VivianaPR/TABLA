@@ -35,7 +35,7 @@ thead tr th {
 
 .table-scroll {
     position: relative;
-    max-height: 73vh;
+    max-height: 70vh;
     overflow-y: auto;
     overflow-x: auto;
     margin-right: 5px;
@@ -57,6 +57,11 @@ thead tr th {
     border-radius: 10px;
     border: 3px solid transparent;
     background-clip: padding-box;
+}
+
+.table td, .table th {
+    text-align: center; /* Centrado horizontal */
+    vertical-align: middle; /* Centrado vertical */
 }
 
 .title-container {
@@ -131,8 +136,8 @@ thead tr th {
     color: #919191;
 }
 
-@media (max-width: 1280px) {
+@media (min-width: 1400px) {
     .table-scroll {
-        max-height: 66vh;
+        max-height: 75vh;
     }
 }
