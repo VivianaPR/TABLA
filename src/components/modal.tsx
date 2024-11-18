@@ -9,31 +9,34 @@ interface CustomModalProps {
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ show, onHide, title, children }) => {
-    
     const [showModal, setShowModal] = useState(false);
     const [closing, setClosing] = useState(false);
 
     useEffect(() => {
         if (show) {
-            setTimeout(() => setShowModal(true), 50); 
+            setShowModal(true);
         } else {
-            setShowModal(false);
+            setClosing(true);
+            setTimeout(() => {
+                setShowModal(false);
+                setClosing(false);
+            }, 400); 
         }
     }, [show]);
 
     const handleHide = () => {
         setClosing(true);
         setTimeout(() => {
-            onHide();
+            onHide(); 
             setClosing(false);
-        }, 400);
+        }, 400); 
     };
 
     return (
         <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={handleHide}>
             <div
                 className={`modal-container ${showModal ? 'show' : ''} ${closing ? 'hide' : ''}`}
-                onClick={e => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()} 
             >
                 <div className="modal_header">
                     <span>{title}</span>

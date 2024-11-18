@@ -18,7 +18,7 @@ interface Column {
 interface TableProps {
     columns: Column[];
     data: Array<Record<string, any>>;
-    renderModalContent?: (row: Record<string, any>, column: Column) => React.ReactNode;
+    renderModalContent?: (row: Record<string, any>, column: Column, onHide: () => void) => React.ReactNode;
     totalDias?: number;
     subtitle: string;
     items: string;
@@ -197,7 +197,7 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                                 onHide={() => setShowModal(false)}
                                 title={`${modalData.column.label}`}
                             >
-                                {renderModalContent(modalData.row, modalData.column)}
+                                {renderModalContent(modalData.row, modalData.column, () => setShowModal(false))}
                             </CustomModal>
                         )}
                     </div>
@@ -205,7 +205,6 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
             )}
         </>
     );
-
 };
 
 
