@@ -62,7 +62,7 @@ export const PruebaBoton: React.FC<any> = ({ row, onHide }) => {
             })
             .finally(() => {
                 setIsRequestInProgress(false);
-                setTimeout(onHide, 2000);
+                setTimeout(onHide, 1000);
             });
     };
 
