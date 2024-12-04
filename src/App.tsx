@@ -1,8 +1,8 @@
+import { VentanaLienzo } from 'eco-unp/ui';
 import './App.css';
-import { VentanaLienzo } from 'eco-unp/ui'
-import { BootstrapTable } from './components/tabla'
-import { FaUsers } from "react-icons/fa";
 import { PruebaBoton } from './components/contenidoDinamico';
+import { BootstrapTable } from './components/tabla';
+import { FaUsers } from "react-icons/fa";
 
 function App() {
   const columns = [
