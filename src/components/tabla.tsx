@@ -23,6 +23,7 @@ interface TableProps {
     subtitle: string;
     items: string;
     extraInput?: React.ReactNode;
+    dateColumnKey?: string;
 }
 
 const getCurrentYear = (): number => {
@@ -33,7 +34,7 @@ const normalizeText = (text: string) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 };
 
-export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items }) => {
+export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items, dateColumnKey}) => {
 
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [modalData, setModalData] = useState<{ row: Record<string, any>, column: Column } | null>(null);
@@ -49,7 +50,13 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
         setHasMoreData(data.length > 15);
     }, [searchTerm, data.length]);
 
-    const filteredData = data.filter(row =>
+    const filteredData = data
+    .slice()
+    .sort((a, b) => dateColumnKey
+        ? new Date(b[dateColumnKey]).getTime() - new Date(a[dateColumnKey]).getTime()
+        : 0
+    )
+    .filter(row =>
         columns.some(column =>
             normalizeText(String(row[column.key])).includes(normalizeText(searchTerm))
         )
