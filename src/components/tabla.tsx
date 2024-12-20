@@ -103,7 +103,7 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                     </div>
                     <div className='subtitle-container'>
                         <span className='subtitle-logo'>{subtitle}</span>
-                        <span>{items}</span>
+                        <span className='items'>{items}</span>
                     </div>
 
                 </div>

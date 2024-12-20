@@ -141,3 +141,35 @@ thead tr th {
         max-height: 75vh;
     }
 }
+
+@media (max-width: 980px) {
+    .unp-row {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .title-container, .inputs-container{
+        width: 100%;
+    }
+
+    .subtitle-logo{
+        font-size: 14px;
+    }
+
+    .inputs-container{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .animation-container{
+        font-size: 14px;
+    }
+
+    .items{
+        display: none;
+    }
+
+    .input-extra-container{
+        margin-top: 1rem;
+    }
+}
