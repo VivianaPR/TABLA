@@ -1,46 +1,109 @@
-# Getting Started with Create React App
+# BootstrapTable
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Referencia de Documentación de Usabilidad  
+**Desarrollador(a):** Viviana Pérez Ruiz  
 
-## Available Scripts
+## Descripción General  
+El componente `BootstrapTable` es un componente reutilizable de React para mostrar datos en formato de tabla, con las siguientes características:  
 
-In the project directory, you can run:
+- Funcionalidad de búsqueda.  
+- Scroll infinito.  
+- Estilizado condicional de celdas.  
+- Integración con modales para vistas detalladas.  
+- Soporte para columnas dinámicas.  
+- Animaciones personalizadas para estados vacíos.  
 
-### `npm start`
+## Propiedades del Componente  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### `TableProps`  
+El componente acepta las siguientes propiedades:  
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+| Propiedad | Tipo | Descripción |
+|-----------|------|-------------|
+| `columns` | `Column[]` | Un array que define las columnas de la tabla, incluyendo etiquetas y lógica de renderizado opcional. |
+| `data` | `Array<Record<string, any>>` | El conjunto de datos que se mostrará en la tabla. |
+| `renderModalContent` | `(row, column, onHide) => React.ReactNode` | Función para renderizar el contenido del modal basado en la fila y columna seleccionada. |
+| `totalDias` | `number` | Número total de días para estilizado condicional en la columna `dias_habiles`. |
+| `subtitle` | `string` | Texto del subtítulo mostrado encima de la tabla. |
+| `items` | `string` | Texto adicional mostrado en la sección del subtítulo. |
+| `extraInput` | `React.ReactNode` | Campos de entrada adicionales renderizados junto al campo de búsqueda. |
+| `dateColumnKey` | `string` | Clave de la columna de fecha usada para ordenar filas en orden descendente. |
 
-### `npm test`
+### `Column`  
+Define la estructura y el comportamiento de cada columna de la tabla:  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Propiedad | Tipo | Descripción |
+|-----------|------|-------------|
+| `key` | `string` | Clave correspondiente a un campo de datos en el conjunto de datos. |
+| `label` | `string` | Etiqueta mostrada en el encabezado de la tabla. |
+| `hasModal` | `boolean` | Si es `true`, al hacer clic en la celda se abre un modal. |
+| `renderComponent` | `(row) => React.ReactNode` | Lógica personalizada de renderizado para el contenido de la columna. |
 
-### `npm run build`
+## Características y Funcionalidad  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Búsqueda  
+- Utiliza el componente `BusquedaInput` para filtrar filas basándose en una búsqueda insensible a mayúsculas y acentos.  
+- Filtra datos dinámicamente mientras el usuario escribe.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. Scroll Infinito  
+- Carga más filas automáticamente a medida que el usuario hace scroll en la tabla.  
+- Controlado por la función `handleScroll`.  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3. Estilizado Condicional  
+- Aplica colores de fondo y texto a la columna `dias_habiles` basado en el porcentaje de días transcurridos.  
 
-### `npm run eject`
+### 4. Integración con Modales  
+- Abre un modal cuando se hace clic en una celda con `hasModal: true`.  
+- El modal muestra contenido basado en la función `renderModalContent` proporcionada en las props.  
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 5. Columnas Dinámicas  
+- Las columnas se generan dinámicamente basado en la prop `columns`, permitiendo flexibilidad en la estructura de la tabla.  
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 6. Animaciones para Estados Vacíos  
+- Muestra animaciones usando la librería Lottie cuando:  
+  - El conjunto de datos está vacío.  
+  - Ninguna fila coincide con los criterios de búsqueda.  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 7. Otras Características  
+- Subtítulo y campos de entrada adicionales proporcionan información contextual e interactividad adicional.  
+- Ordenamiento por fecha cuando se proporciona `dateColumnKey`.  
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Ejemplo de Uso  
+```tsx
+import BootstrapTable from './BootstrapTable';
 
-## Learn More
+const columns = [
+  { key: 'id', label: 'ID' },
+  { key: 'nombre', label: 'Nombre', hasModal: true },
+  { key: 'dias_habiles', label: 'Días Hábiles' },
+];
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const data = [
+  { id: 1, nombre: 'Ejemplo 1', dias_habiles: 10 },
+  { id: 2, nombre: 'Ejemplo 2', dias_habiles: 20 },
+];
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const renderModalContent = (row, column, onHide) => (
+  <div>
+    <h2>Detalle de {column.label}</h2>
+    <p>{row[column.key]}</p>
+    <button onClick={onHide}>Cerrar</button>
+  </div>
+);
+
+function App() {
+  return (
+    <BootstrapTable
+      columns={columns}
+      data={data}
+      renderModalContent={renderModalContent}
+      totalDias={30}
+      subtitle="Ejemplo de Tabla"
+      items="Datos de prueba"
+      dateColumnKey="dias_habiles"
+    />
+  );
+}
+
+export default App;
+

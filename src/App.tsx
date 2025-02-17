@@ -5,8 +5,9 @@ import { BootstrapTable } from './components/tabla';
 import { FaUsers } from "react-icons/fa";
 
 function App() {
+
   const columns = [
-    { key: "no_orden", label: "No de Orden", hasModal: true },
+    { key: "no_orden", label: "No de Orden", hasModal: true }, //Configuración de renderización de modales en la columna
     { key: "nombre_evaluado", label: "Nombre del Evaluado" },
     { key: "id_evaluado", label: "Identificación" },
     { key: "fecha_asignacion", label: "Fecha de asignación" },
@@ -17,14 +18,14 @@ function App() {
     {
       key: 'analista',
       label: 'Analista',
-      renderComponent: (row: any) => <select className="form-select">
+      renderComponent: (row: any) => <select className="form-select"> 
         <option value="0">Seleccione el analista</option>
         <option value="1">Analista uno</option>
         <option value="2">Analista dos</option>
         <option value="3">{row.no_orden}</option>
-      </select>
+      </select> //Integración de componentes adicionales en las celdas
     },
-  ];
+  ]; //Array de configuración de las columnas
 
   const data = [
     { solicitud: 1, no_orden: "OTI01", nombre_evaluado: "Viviana Pérez", id_evaluado: "100354321", fecha_asignacion: "12/06/2021", dias_habiles: 2, poblacion: "ROM", tipo_estudio: "A", anexos: '8', extra: 'hola' },
@@ -68,7 +69,7 @@ function App() {
     switch (column.key) {
       case "no_orden":
         return (
-          <PruebaBoton row={row} onHide={onHide}></PruebaBoton>
+          <PruebaBoton row={row} onHide={onHide}></PruebaBoton> // Consumo dinámico del contenido de los modales
         );
       case "anexos":
         return (<h1>{row.solicitud}</h1>);
@@ -85,6 +86,7 @@ function App() {
   );
 
   return (
+
     <div >
       <VentanaLienzo>
         <div className='App'>
@@ -102,6 +104,8 @@ function App() {
       </VentanaLienzo>
     </div>
   );
+
+  
 }
 
 export default App;
