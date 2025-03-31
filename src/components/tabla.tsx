@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import { Form, Table } from 'react-bootstrap';
 import { BusquedaInput } from './buscador';
 import { CustomModal } from './modal';
 import Lottie from "lottie-react";
@@ -13,6 +13,7 @@ interface Column {
     label: string;
     hasModal?: boolean;
     renderComponent?: (row: Record<string, any>) => React.ReactNode;
+    searchable?: boolean;
 }
 
 interface TableProps {
@@ -34,9 +35,10 @@ const normalizeText = (text: string) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 };
 
-export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items, dateColumnKey}) => {
+export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items, dateColumnKey }) => {
 
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [columnSearch, setColumnSearch] = useState<{ [key: string]: string }>({});
     const [modalData, setModalData] = useState<{ row: Record<string, any>, column: Column } | null>(null);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [visibleData, setVisibleData] = useState<number>(15);
@@ -48,29 +50,51 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
         setShowMessage(data.length < 1);
         setVisibleData(15);
         setHasMoreData(data.length > 15);
-    }, [searchTerm, data.length]);
+    }, [searchTerm, columnSearch, data.length]);
+
+    //Filtro por columna
+    const handleColumnSearch = (key: string, value: string) => {
+        setColumnSearch(prev => ({ ...prev, [key]: value }));
+    };
+
+    const filteredDataColumn = data.filter(row =>
+        columns.every(column => {
+            if (column.searchable && columnSearch[column.key]) {
+                return String(row[column.key]).toLowerCase().includes(columnSearch[column.key].toLowerCase());
+            }
+            return true;
+        })
+    );
+
+    //Filtro General
+    const isColumnSearchActive = Object.values(columnSearch).some(value => value.trim() !== "");
 
     const filteredData = data
-    .slice()
-    .sort((a, b) => dateColumnKey
-        ? new Date(b[dateColumnKey]).getTime() - new Date(a[dateColumnKey]).getTime()
-        : 0
-    )
-    .filter(row =>
-        columns.some(column =>
-            normalizeText(String(row[column.key])).includes(normalizeText(searchTerm))
+        .slice()
+        .sort((a, b) => dateColumnKey
+            ? new Date(b[dateColumnKey]).getTime() - new Date(a[dateColumnKey]).getTime()
+            : 0
         )
-    );
+        .filter(row =>
+            !isColumnSearchActive && columns.some(column =>
+                normalizeText(String(row[column.key])).includes(normalizeText(searchTerm))
+            )
+        );
+
+    const displayedData = isColumnSearchActive ? filteredDataColumn : filteredData;
+
+
+    const hasColumnSearch = columns.some(column => column.searchable);
 
     const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
         const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
         if (scrollHeight - scrollTop <= clientHeight + 50 && hasMoreData) {
             setVisibleData(prev => {
                 const newVisibleData = prev + 5;
-                if (newVisibleData >= filteredData.length) {
+                if (newVisibleData >= displayedData.length) {
                     setHasMoreData(false);
                 }
-                return Math.min(newVisibleData, filteredData.length);
+                return Math.min(newVisibleData, displayedData.length);
             });
         }
     };
@@ -107,7 +131,7 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                     </div>
 
                 </div>
-                {data.length > 0 && (
+                {data.length > 0 && !hasColumnSearch && (
                     <div className='inputs-container'>
                         <BusquedaInput onSearch={setSearchTerm} />
                         <div className='input-extra-container'>
@@ -142,9 +166,28 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                                             <th key={index}>{column.label}</th>
                                         ))}
                                     </tr>
+                                    {hasColumnSearch && (
+                                        <tr>
+                                        {columns.map((column, index) => (
+                                            <th key={index}>
+                                                {column.searchable && (
+                                                    <Form.Group className="d-flex align-items-center mx-1 position-relative">
+                                                        <Form.Control
+                                                            type='text'
+                                                            placeholder={`Buscar ${column.label}`}
+                                                            value={columnSearch[column.key] || ''}
+                                                            onChange={(e) => handleColumnSearch(column.key, e.target.value)}
+                                                        />
+                                                    </Form.Group>
+                                                )}
+                                            </th>
+                                        ))}
+
+                                    </tr>
+                                    )}
                                 </thead>
                                 <tbody>
-                                    {filteredData.slice(0, visibleData).map((row, rowIndex) => (
+                                    {displayedData.slice(0, visibleData).map((row, rowIndex) => (
                                         <tr key={rowIndex}>
                                             {columns.map((column, colIndex) => (
                                                 <td
@@ -180,22 +223,24 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                                             ))}
                                         </tr>
                                     ))}
-                                    {hasMoreData && (
-                                        <tr>
-                                            <td colSpan={columns.length} className="text-center">
-                                                Cargando más datos...
-                                            </td>
-                                        </tr>
-                                    )}
+
                                 </tbody>
                             </Table>
+                            {columnSearch && displayedData.length === 0 ? (
+                                <div className='animation-container_column'>
+                                    <div style={{ width: 80, height: 80 }}>
+                                        <Lottie animationData={noInfo} loop={true} />
+                                    </div>
+                                    <span> No se encontró registro con el criterio de búsqueda definido </span>
+                                </div>
+                            ) : (null)}
                         </div>
-                        <div className='d-flex justify-content-between'>
+                        <div className='footer-table-container'>
                             <div className='data-unp'>
                                 {currentYear} • Unidad Nacional de Protección — UNP
                             </div>
                             <div className='data-count'>
-                                Mostrando {Math.min(visibleData, filteredData.length)} de {filteredData.length} elementos
+                                Mostrando {Math.min(visibleData, displayedData.length)} de {displayedData.length} elementos
                             </div>
                         </div>
                         {modalData && renderModalContent && (

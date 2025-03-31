@@ -97,3 +97,9 @@
     border: 3px solid transparent;
     background-clip: padding-box;
 }
+
+@media (max-width: 980px) {
+    .modal-container {
+        width: 80% !important;
+    }
+}

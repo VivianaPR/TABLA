@@ -13,7 +13,7 @@
 .cell-with-modal:hover {
     background-color: #303D50 !important;
     color: white;
-    font-weight: 600;
+    font-weight: 400 !important;
 }
 
 thead tr th {
@@ -136,6 +136,23 @@ thead tr th {
     color: #919191;
 }
 
+.animation-container_column{
+    gap: 2rem;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #919191;
+    font-size: 14px;
+    margin-bottom: 2rem;
+}
+
+.footer-table-container{
+    display: flex;
+    justify-content: space-between;
+}
+
 @media (min-width: 1800px) {
     .table-scroll {
         max-height: 75vh;
@@ -146,6 +163,7 @@ thead tr th {
     .unp-row {
         flex-direction: column;
         gap: 2rem;
+        margin-bottom: 0;
     }
 
     .title-container, .inputs-container{
@@ -153,7 +171,7 @@ thead tr th {
     }
 
     .subtitle-logo{
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .inputs-container{
@@ -171,5 +189,17 @@ thead tr th {
 
     .input-extra-container{
         margin-top: 1rem;
+    }
+
+    .footer-table-container{
+        flex-direction: column;
+    }
+
+    .data-unp{
+        display: none;
+    }
+
+    .table_container{
+        margin-bottom: 0;
     }
 }
