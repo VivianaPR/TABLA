@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Table } from 'react-bootstrap';
+import { Button, Form, InputGroup, Table } from 'react-bootstrap';
 import { BusquedaInput } from './buscador';
 import { CustomModal } from './modal';
 import Lottie from "lottie-react";
@@ -7,6 +7,7 @@ import logo from '../assets/logo.png';
 import './styles/tabla.css';
 import noData from '../assets/animations/noData.json';
 import noInfo from '../assets/animations/noInfo.json';
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 
 interface Column {
     key: string;
@@ -45,6 +46,10 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
     const [hasMoreData, setHasMoreData] = useState<boolean>(data.length > 15);
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const currentYear = getCurrentYear();
+    const [sortConfig, setSortConfig] = useState<{ key: string | null; direction: "asc" | "desc" | null }>({
+        key: null,
+        direction: null
+    });
 
     useEffect(() => {
         setShowMessage(data.length < 1);
@@ -117,6 +122,31 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
         return { backgroundColor: 'transparent', color: 'inherit' };
     };
 
+    // Función para manejar el cambio de ordenamiento
+    const handleSort = (key: string) => {
+        setSortConfig(prev => ({
+            key,
+            direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc"
+        }));
+    };
+
+    // Función para ordenar los datos según la columna seleccionada
+    const sortedData = [...displayedData].sort((a, b) => {
+        if (!sortConfig.key) return 0; // Si no hay ordenamiento, devolver el array tal cual
+
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+
+        if (typeof valueA === "number" && typeof valueB === "number") {
+            return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+        }
+        if (typeof valueA === "string" && typeof valueB === "string") {
+            return sortConfig.direction === "asc" ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+        }
+        return 0;
+    });
+
+
     return (
         <>
             <div className='unp-row'>
@@ -163,31 +193,49 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                                 <thead>
                                     <tr>
                                         {columns.map((column, index) => (
-                                            <th key={index}>{column.label}</th>
+                                            <th key={index} onClick={() => handleSort(column.key)} style={{ cursor: "pointer" }}>
+                                                {column.label}{" "}
+                                                {sortConfig.key === column.key ? (
+                                                    sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />
+                                                ) : (
+                                                    <FaSort />
+                                                )}
+                                            </th>
                                         ))}
                                     </tr>
                                     {hasColumnSearch && (
                                         <tr>
-                                        {columns.map((column, index) => (
-                                            <th key={index}>
-                                                {column.searchable && (
-                                                    <Form.Group className="d-flex align-items-center mx-1 position-relative">
-                                                        <Form.Control
-                                                            type='text'
-                                                            placeholder={`Buscar ${column.label}`}
-                                                            value={columnSearch[column.key] || ''}
-                                                            onChange={(e) => handleColumnSearch(column.key, e.target.value)}
-                                                        />
-                                                    </Form.Group>
-                                                )}
-                                            </th>
-                                        ))}
-
-                                    </tr>
+                                            {columns.map((column, index) => (
+                                                <th key={index}>
+                                                    {column.searchable && (
+                                                        <Form.Group className="mx-1 position-relative">
+                                                            <Form.Control
+                                                                type="text"
+                                                                placeholder={`Buscar ${column.label}`}
+                                                                value={columnSearch[column.key] || ""}
+                                                                onChange={(e) => handleColumnSearch(column.key, e.target.value)}
+                                                                className="pe-4" // Espacio para el botón dentro del input
+                                                            />
+                                                            {columnSearch[column.key] && (
+                                                                <Button
+                                                                    variant="link"
+                                                                    size="sm"
+                                                                    className="position-absolute end-0 top-50 translate-middle-y me-2 p-0"
+                                                                    onClick={() => handleColumnSearch(column.key, "")}
+                                                                    style={{ textDecoration: "none", color: "gray" }}
+                                                                >
+                                                                    ✖
+                                                                </Button>
+                                                            )}
+                                                        </Form.Group>
+                                                    )}
+                                                </th>
+                                            ))}
+                                        </tr>
                                     )}
                                 </thead>
                                 <tbody>
-                                    {displayedData.slice(0, visibleData).map((row, rowIndex) => (
+                                    {sortedData.slice(0, visibleData).map((row, rowIndex) => (
                                         <tr key={rowIndex}>
                                             {columns.map((column, colIndex) => (
                                                 <td

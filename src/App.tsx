@@ -6,13 +6,13 @@ function App() {
 
 
   const columns = [
-    { key: "no_orden", label: "No de Orden", hasModal: true,  searchable: true},
+    { key: "no_orden", label: "No de Orden", hasModal: true, searchable: true},
     { key: "nombre_evaluado", label: "Grupo evaluado", hasModal: true, searchable: true },
     { key: "id_evaluado", label: "Identificación", searchable: true },
     { key: "fecha_asignacion", label: "Fecha de asignación", searchable: true },
     { key: "dias_habiles", label: "Días hábiles", searchable: true },
     { key: "poblacion", label: "Población", searchable: true },
-    { key: "tipo_estudio", label: "Tipo de estudio", hasModal: true , searchable: true }
+    { key: "tipo_estudio", label: "Tipo de estudio", hasModal: true, searchable: true  }
   ];
 
   const data = [
@@ -55,7 +55,7 @@ function App() {
     { no_orden: "OTC01", nombre_evaluado: "Líderes comunales / CAUCA", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 7, poblacion: "PCCC", tipo_estudio: "A" },
     { no_orden: "OTC02", nombre_evaluado: "Grupo AFRO - LGBT / ATLANTICO ", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 33, poblacion: "AFRO", tipo_estudio: "A1" },
     { no_orden: "OTC03", nombre_evaluado: "Mujeres cabeza de hogar / NARIÑO", id_evaluado: "784521432", fecha_asignacion: "12/08/2024", dias_habiles: 45, poblacion: "LGBT", tipo_estudio: "A6" },
-    { no_orden: "OTC01", nombre_evaluado: "Líderes comunales / CAUCA", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 7, poblacion: "Buscadoras", tipo_estudio: "A" },
+    { no_orden: "OTC01", nombre_evaluado: "Líderes comunales / VAUPES", id_evaluado: "100354321", fecha_asignacion: "12/06/2024", dias_habiles: 7, poblacion: "Buscadoras", tipo_estudio: "A" },
     { no_orden: "OTC02", nombre_evaluado: "Grupo AFRO - LGBT / ATLANTICO ", id_evaluado: "465432154", fecha_asignacion: "12/07/2024", dias_habiles: 33, poblacion: "AFRO", tipo_estudio: "A1" },
     { no_orden: "OTC03", nombre_evaluado: "Mujeres cabeza de hogar / NARIÑO", id_evaluado: "784521432", fecha_asignacion: "12/08/2024", dias_habiles: 45, poblacion: "LGBT", tipo_estudio: "A6" }
   ];
