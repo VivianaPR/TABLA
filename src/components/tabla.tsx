@@ -26,6 +26,7 @@ interface TableProps {
     items: string;
     extraInput?: React.ReactNode;
     dateColumnKey?: string;
+    enableColumnSearch?: boolean;
 }
 
 const getCurrentYear = (): number => {
@@ -36,7 +37,7 @@ const normalizeText = (text: string) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 };
 
-export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items, dateColumnKey }) => {
+export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModalContent, totalDias, subtitle, extraInput, items, dateColumnKey, enableColumnSearch }) => {
 
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [columnSearch, setColumnSearch] = useState<{ [key: string]: string }>({});
@@ -64,12 +65,13 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
 
     const filteredDataColumn = data.filter(row =>
         columns.every(column => {
-            if (column.searchable && columnSearch[column.key]) {
+            if (enableColumnSearch && columnSearch[column.key]) {
                 return String(row[column.key]).toLowerCase().includes(columnSearch[column.key].toLowerCase());
             }
             return true;
         })
     );
+
 
     //Filtro General
     const isColumnSearchActive = Object.values(columnSearch).some(value => value.trim() !== "");
@@ -88,8 +90,7 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
 
     const displayedData = isColumnSearchActive ? filteredDataColumn : filteredData;
 
-
-    const hasColumnSearch = columns.some(column => column.searchable);
+    const hasColumnSearch = enableColumnSearch;
 
     const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
         const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
@@ -161,7 +162,7 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                     </div>
 
                 </div>
-                {data.length > 0 && !hasColumnSearch && (
+                {data.length > 0 && !enableColumnSearch && (
                     <div className='inputs-container'>
                         <BusquedaInput onSearch={setSearchTerm} />
                         <div className='input-extra-container'>
@@ -193,42 +194,46 @@ export const BootstrapTable: React.FC<TableProps> = ({ columns, data, renderModa
                                 <thead>
                                     <tr>
                                         {columns.map((column, index) => (
-                                            <th key={index} onClick={() => handleSort(column.key)} style={{ cursor: "pointer" }}>
+                                            <th
+                                                key={index}
+                                                onClick={() => enableColumnSearch && handleSort(column.key)}
+                                                style={{ cursor: enableColumnSearch ? "pointer" : "default" }}
+                                            >
                                                 {column.label}{" "}
-                                                {sortConfig.key === column.key ? (
-                                                    sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />
-                                                ) : (
-                                                    <FaSort />
-                                                )}
+                                                {enableColumnSearch ? (
+                                                    sortConfig.key === column.key ? (
+                                                        sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />
+                                                    ) : (
+                                                        <FaSort />
+                                                    )
+                                                ) : null}
                                             </th>
                                         ))}
                                     </tr>
-                                    {hasColumnSearch && (
+                                    {enableColumnSearch && (
                                         <tr>
                                             {columns.map((column, index) => (
                                                 <th key={index}>
-                                                    {column.searchable && (
-                                                        <Form.Group className="mx-1 position-relative">
-                                                            <Form.Control
-                                                                type="text"
-                                                                placeholder={`Buscar ${column.label}`}
-                                                                value={columnSearch[column.key] || ""}
-                                                                onChange={(e) => handleColumnSearch(column.key, e.target.value)}
-                                                                className="pe-4" // Espacio para el botón dentro del input
-                                                            />
-                                                            {columnSearch[column.key] && (
-                                                                <Button
-                                                                    variant="link"
-                                                                    size="sm"
-                                                                    className="position-absolute end-0 top-50 translate-middle-y me-2 p-0"
-                                                                    onClick={() => handleColumnSearch(column.key, "")}
-                                                                    style={{ textDecoration: "none", color: "gray" }}
-                                                                >
-                                                                    ✖
-                                                                </Button>
-                                                            )}
-                                                        </Form.Group>
-                                                    )}
+                                                    <Form.Group className="mx-1 position-relative">
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder={`Buscar ${column.label}`}
+                                                            value={columnSearch[column.key] || ""}
+                                                            onChange={(e) => handleColumnSearch(column.key, e.target.value)}
+                                                            className="pe-4"
+                                                        />
+                                                        {columnSearch[column.key] && (
+                                                            <Button
+                                                                variant="link"
+                                                                size="sm"
+                                                                className="position-absolute end-0 top-50 translate-middle-y me-2 p-0"
+                                                                onClick={() => handleColumnSearch(column.key, "")}
+                                                                style={{ textDecoration: "none", color: "gray" }}
+                                                            >
+                                                                ✖
+                                                            </Button>
+                                                        )}
+                                                    </Form.Group>
                                                 </th>
                                             ))}
                                         </tr>

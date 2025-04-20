@@ -6,13 +6,13 @@ function App() {
 
 
   const columns = [
-    { key: "no_orden", label: "No de Orden", hasModal: true, searchable: true},
-    { key: "nombre_evaluado", label: "Grupo evaluado", hasModal: true, searchable: true },
-    { key: "id_evaluado", label: "Identificación", searchable: true },
-    { key: "fecha_asignacion", label: "Fecha de asignación", searchable: true },
-    { key: "dias_habiles", label: "Días hábiles", searchable: true },
-    { key: "poblacion", label: "Población", searchable: true },
-    { key: "tipo_estudio", label: "Tipo de estudio", hasModal: true, searchable: true  }
+    { key: "no_orden", label: "No de Orden", hasModal: true},
+    { key: "nombre_evaluado", label: "Grupo evaluado", hasModal: true },
+    { key: "id_evaluado", label: "Identificación" },
+    { key: "fecha_asignacion", label: "Fecha de asignación" },
+    { key: "dias_habiles", label: "Días hábiles" },
+    { key: "poblacion", label: "Población" },
+    { key: "tipo_estudio", label: "Tipo de estudio", hasModal: true  }
   ];
 
   const data = [
@@ -94,7 +94,9 @@ function App() {
             columns={columns}
             data={data}
             renderModalContent={renderModalContent}
-            totalDias={50} subtitle={'Subdirección de Evaluación de Riesgo'} items={'Órdenes de trabajo'} />
+            totalDias={50} subtitle={'Subdirección de Evaluación de Riesgo'} 
+            items={'Órdenes de trabajo'}
+            enableColumnSearch={true} />
         </div>
       </VentanaLienzo>
     </>
