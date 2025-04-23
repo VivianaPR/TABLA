@@ -1,4 +1,4 @@
-# 🏆 **BootstrapTable**  
+# 🏆 **BootstrapTable**
 
 ## 📌 Índice  
 1. [📖 Referencia de Documentación de Usabilidad](#referencia-de-documentación-de-usabilidad)  
@@ -20,6 +20,7 @@
 El componente `BootstrapTable` es un componente reutilizable de **React** para mostrar datos en formato de tabla, con las siguientes características:  
 
 ✅ **Funcionalidad de búsqueda** 🔍  
+✅ **Búsqueda por columnas** 🧩  
 ✅ **Scroll infinito** 🔄  
 ✅ **Estilizado condicional de celdas** 🎨  
 ✅ **Integración con modales** 🏷️  
@@ -28,7 +29,7 @@ El componente `BootstrapTable` es un componente reutilizable de **React** para m
 
 ---
 
-## ⚙️ **Propiedades del Componente**  
+## ⚙️ **Propiedades del Componente**
 
 ### 🎯 `TableProps`  
 El componente acepta las siguientes propiedades:  
@@ -43,6 +44,7 @@ El componente acepta las siguientes propiedades:
 | `items` | `string` | Texto adicional mostrado en la sección del subtítulo. |
 | `extraInput` | `React.ReactNode` | Campos de entrada adicionales renderizados junto al campo de búsqueda. |
 | `dateColumnKey` | `string` | Clave de la columna de fecha usada para ordenar filas en orden descendente. |
+| `enableColumnSearch` | `boolean` | Habilita la búsqueda por columnas específicas. |
 
 ### 📊 `Column`  
 Define la estructura y el comportamiento de cada columna de la tabla:  
@@ -56,38 +58,43 @@ Define la estructura y el comportamiento de cada columna de la tabla:
 
 ---
 
-## 🚀 **Características y Funcionalidad**  
+## 🚀 **Características y Funcionalidad**
 
-### 🔍 **1. Búsqueda**  
+### 🔍 **1. Búsqueda General**  
 - Utiliza el componente `BusquedaInput` para filtrar filas basándose en una búsqueda **insensible a mayúsculas y acentos**.  
 - Filtra datos dinámicamente mientras el usuario escribe.  
 
-### 🔄 **2. Scroll Infinito**  
+### 🧩 **2. Búsqueda por Columnas**  
+- Cuando `enableColumnSearch` es `true`, se activa un campo de búsqueda independiente para cada columna.  
+- Las búsquedas se aplican de manera independiente y combinada.  
+- Ideal para análisis detallado por atributos específicos.
+
+### 🔄 **3. Scroll Infinito**  
 - Carga más filas automáticamente a medida que el usuario hace scroll en la tabla.  
 - Controlado por la función `handleScroll`.  
 
-### 🎨 **3. Estilizado Condicional**  
+### 🎨 **4. Estilizado Condicional**  
 - Aplica **colores de fondo y texto** a la columna `dias_habiles` basado en el **porcentaje de días transcurridos**.  
 
-### 🏷️ **4. Integración con Modales**  
+### 🏷️ **5. Integración con Modales**  
 - Abre un modal cuando se hace clic en una celda con `hasModal: true`.  
 - El modal muestra contenido basado en la función `renderModalContent`.  
 
-### 📊 **5. Columnas Dinámicas**  
+### 📊 **6. Columnas Dinámicas**  
 - Las columnas se generan dinámicamente con `columns`, permitiendo flexibilidad en la estructura de la tabla.  
 
-### 🚀 **6. Animaciones para Estados Vacíos**  
+### 🚀 **7. Animaciones para Estados Vacíos**  
 - Muestra **animaciones** con la librería **Lottie** cuando:  
   - El conjunto de datos está vacío.  
   - Ninguna fila coincide con los criterios de búsqueda.  
 
-### 🎯 **7. Otras Características**  
+### 🎯 **8. Otras Características**  
 - **Subtítulo** y **campos de entrada adicionales** proporcionan información contextual e interactividad.  
 - **Ordenamiento por fecha** cuando se proporciona `dateColumnKey`.  
 
 ---
 
-## 📌 **Ejemplo de Uso**  
+## 📌 **Ejemplo de Uso**
 ```tsx
 import BootstrapTable from './BootstrapTable';
 
@@ -120,10 +127,12 @@ function App() {
       subtitle="Ejemplo de Tabla"
       items="Datos de prueba"
       dateColumnKey="dias_habiles"
+      enableColumnSearch={true}
     />
   );
 }
 
 export default App;
+
 
 
