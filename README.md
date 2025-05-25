@@ -1,117 +1,187 @@
-# 🏆 **BootstrapTable**
 
-## 📌 Índice  
-1. [📖 Referencia de Documentación de Usabilidad](#referencia-de-documentación-de-usabilidad)  
-2. [📌 Descripción General](#descripción-general)  
-3. [⚙️ Propiedades del Componente](#propiedades-del-componente)  
-   - [`TableProps`](#tableprops)  
-   - [`Column`](#column)  
-4. [🚀 Características y Funcionalidad](#características-y-funcionalidad)  
-5. [📌 Ejemplo de Uso](#ejemplo-de-uso)  
+# 🏆 BootstrapTable
+
+> **Tabla reutilizable en React con Bootstrap y características avanzadas como búsqueda, scroll infinito, modales y estilizado condicional**
 
 ---
 
-## 📖 **Referencia de Documentación de Usabilidad**  
-**👩‍💻 Desarrollador(a):** _Viviana Pérez Ruiz_  
+## 📚 Índice
+
+1. [👩‍💻 Autor](#-autor)  
+2. [📦 Instalación](#-instalación)  
+3. [🧩 Descripción General](#-descripción-general)  
+4. [⚙️ Props Detalladas](#️-props-detalladas)  
+5. [🧠 Funcionalidades Clave](#-funcionalidades-clave)  
+6. [📊 Ejemplo de Uso](#-ejemplo-de-uso)  
+7. [💡 Consideraciones Técnicas](#-consideraciones-técnicas)  
+8. [🤝 Contribuciones](#-contribuciones)  
+9. [📄 Licencia](#-licencia)
 
 ---
 
-## 📌 **Descripción General**  
-El componente `BootstrapTable` es un componente reutilizable de **React** para mostrar datos en formato de tabla, con las siguientes características:  
+## 👩‍💻 Autor
 
-✅ **Funcionalidad de búsqueda** 🔍  
-✅ **Búsqueda por columnas** 🧩  
-✅ **Scroll infinito** 🔄  
-✅ **Estilizado condicional de celdas** 🎨  
-✅ **Integración con modales** 🏷️  
-✅ **Soporte para columnas dinámicas** 📊  
-✅ **Animaciones personalizadas** 🚀  
+- **Nombre:** Viviana Pérez Ruiz  
+- **Rol:** Desarrolladora de Software  
+- **Propósito:** Crear un componente de tabla reutilizable, robusto y flexible para proyectos React.
 
 ---
 
-## ⚙️ **Propiedades del Componente**
+## 📦 Instalación
 
-### 🎯 `TableProps`  
-El componente acepta las siguientes propiedades:  
+Agrega este componente en tu proyecto:
 
-| 🏷️ Propiedad | 🛠️ Tipo | 📖 Descripción |
-|-------------|--------|--------------|
-| `columns` | `Column[]` | Array que define las columnas de la tabla, incluyendo etiquetas y lógica de renderizado. |
-| `data` | `Array<Record<string, any>>` | Conjunto de datos a mostrar en la tabla. |
-| `renderModalContent` | `(row, column, onHide) => React.ReactNode` | Función para renderizar el contenido del modal basado en la fila y columna seleccionada. |
-| `totalDias` | `number` | Número total de días para estilizado condicional en la columna `dias_habiles`. |
-| `subtitle` | `string` | Texto del subtítulo mostrado encima de la tabla. |
-| `items` | `string` | Texto adicional mostrado en la sección del subtítulo. |
-| `extraInput` | `React.ReactNode` | Campos de entrada adicionales renderizados junto al campo de búsqueda. |
-| `dateColumnKey` | `string` | Clave de la columna de fecha usada para ordenar filas en orden descendente. |
-| `enableColumnSearch` | `boolean` | Habilita la búsqueda por columnas específicas. |
+```bash
+# Clona o copia el archivo
+cp BootstrapTable.tsx ./components/
 
-### 📊 `Column`  
-Define la estructura y el comportamiento de cada columna de la tabla:  
-
-| 🏷️ Propiedad | 🛠️ Tipo | 📖 Descripción |
-|-------------|--------|--------------|
-| `key` | `string` | Clave correspondiente a un campo de datos en el conjunto de datos. |
-| `label` | `string` | Etiqueta mostrada en el encabezado de la tabla. |
-| `hasModal` | `boolean` | Si es `true`, al hacer clic en la celda se abre un modal. |
-| `renderComponent` | `(row) => React.ReactNode` | Lógica personalizada de renderizado para el contenido de la columna. |
+# Asegúrate de tener estas dependencias
+npm install react-bootstrap bootstrap lottie-react
+```
 
 ---
 
-## 🚀 **Características y Funcionalidad**
+## 🧩 Descripción General
 
-### 🔍 **1. Búsqueda General**  
-- Utiliza el componente `BusquedaInput` para filtrar filas basándose en una búsqueda **insensible a mayúsculas y acentos**.  
-- Filtra datos dinámicamente mientras el usuario escribe.  
+El componente `BootstrapTable` fue diseñado para:
 
-### 🧩 **2. Búsqueda por Columnas**  
-- Cuando `enableColumnSearch` es `true`, se activa un campo de búsqueda independiente para cada columna.  
-- Las búsquedas se aplican de manera independiente y combinada.  
-- Ideal para análisis detallado por atributos específicos.
-
-### 🔄 **3. Scroll Infinito**  
-- Carga más filas automáticamente a medida que el usuario hace scroll en la tabla.  
-- Controlado por la función `handleScroll`.  
-
-### 🎨 **4. Estilizado Condicional**  
-- Aplica **colores de fondo y texto** a la columna `dias_habiles` basado en el **porcentaje de días transcurridos**.  
-
-### 🏷️ **5. Integración con Modales**  
-- Abre un modal cuando se hace clic en una celda con `hasModal: true`.  
-- El modal muestra contenido basado en la función `renderModalContent`.  
-
-### 📊 **6. Columnas Dinámicas**  
-- Las columnas se generan dinámicamente con `columns`, permitiendo flexibilidad en la estructura de la tabla.  
-
-### 🚀 **7. Animaciones para Estados Vacíos**  
-- Muestra **animaciones** con la librería **Lottie** cuando:  
-  - El conjunto de datos está vacío.  
-  - Ninguna fila coincide con los criterios de búsqueda.  
-
-### 🎯 **8. Otras Características**  
-- **Subtítulo** y **campos de entrada adicionales** proporcionan información contextual e interactividad.  
-- **Ordenamiento por fecha** cuando se proporciona `dateColumnKey`.  
+- ✅ Renderizar tablas altamente configurables  
+- 🔍 Incluir filtros y búsqueda general o por columna  
+- 🔄 Soportar scroll infinito para mejorar rendimiento  
+- 📦 Mostrar modales personalizados por celda  
+- 🎨 Aplicar estilos condicionales dinámicos a celdas  
+- 🚫 Mostrar animaciones cuando no hay datos  
 
 ---
 
-## 📌 **Ejemplo de Uso**
+## ⚙️ Props Detalladas
+
+### `columns`
+
+**Tipo:** `Column[]`  
+**Descripción:** Define las columnas que la tabla debe renderizar.
+
+```ts
+type Column = {
+  key: string;
+  label: string;
+  hasModal?: boolean;
+  renderComponent?: (row: any) => React.ReactNode;
+};
+```
+
+---
+
+### `data`
+
+**Tipo:** `Array<Record<string, any>>`  
+**Descripción:** Lista de objetos que representan las filas de la tabla.  
+
+---
+
+### `renderModalContent`
+
+**Tipo:** `(row: any, column: Column, onHide: () => void) => React.ReactNode`  
+**Descripción:** Renderiza el contenido del modal para celdas que lo necesiten.
+
+---
+
+### `totalDias`
+
+**Tipo:** `number`  
+**Descripción:** Días totales usados para calcular el % en la columna `dias_habiles`.
+
+---
+
+### `subtitle`
+
+**Tipo:** `string`  
+**Descripción:** Subtítulo que se muestra arriba de la tabla.
+
+---
+
+### `items`
+
+**Tipo:** `string`  
+**Descripción:** Texto adicional mostrado junto al subtítulo (ej. `"chalecos entregados"`).
+
+---
+
+### `extraInput`
+
+**Tipo:** `React.ReactNode`  
+**Descripción:** Componente adicional mostrado junto al input de búsqueda (ej. filtros personalizados).
+
+---
+
+### `dateColumnKey`
+
+**Tipo:** `string`  
+**Descripción:** Clave de la columna con fechas, usada para ordenar por fecha.
+
+---
+
+### `enableColumnSearch`
+
+**Tipo:** `boolean`  
+**Descripción:** Si es `true`, habilita búsqueda por columnas.
+
+---
+
+## 🧠 Funcionalidades Clave
+
+### 🔍 Búsqueda Global
+
+- Filtra todos los datos con una sola barra de búsqueda  
+- Ignora mayúsculas, minúsculas y acentos
+
+### 🔍 Búsqueda por Columnas
+
+- Filtros individuales en cada encabezado de columna  
+- Activado con la prop `enableColumnSearch`
+
+### 🎨 Estilo Condicional
+
+- La columna `dias_habiles` cambia de color según porcentaje del total:
+  - 🟩 Verde: ≥ 75%  
+  - 🟨 Amarillo: 25% a 74%  
+  - 🟥 Rojo: < 25%
+
+### 📦 Modales
+
+- Renderiza contenido personalizado por celda con `hasModal: true`  
+- El contenido se define con la prop `renderModalContent`
+
+### 🔄 Scroll Infinito
+
+- Muestra más filas conforme se hace scroll  
+- Mejora el rendimiento en grandes volúmenes de datos
+
+### ✨ Animaciones sin datos
+
+- Usa Lottie para mostrar animaciones personalizadas cuando no hay resultados
+
+---
+
+## 📊 Ejemplo de Uso
+
 ```tsx
 import BootstrapTable from './BootstrapTable';
 
 const columns = [
-  { key: 'id', label: 'ID' },
   { key: 'nombre', label: 'Nombre', hasModal: true },
+  { key: 'zona', label: 'Zona' },
   { key: 'dias_habiles', label: 'Días Hábiles' },
 ];
 
 const data = [
-  { id: 1, nombre: 'Ejemplo 1', dias_habiles: 10 },
-  { id: 2, nombre: 'Ejemplo 2', dias_habiles: 20 },
+  { nombre: 'Persona A', zona: 'Norte', dias_habiles: 12 },
+  { nombre: 'Persona B', zona: 'Sur', dias_habiles: 4 },
 ];
 
 const renderModalContent = (row, column, onHide) => (
   <div>
-    <h2>Detalle de {column.label}</h2>
+    <h4>{column.label}</h4>
     <p>{row[column.key]}</p>
     <button onClick={onHide}>Cerrar</button>
   </div>
@@ -123,16 +193,29 @@ function App() {
       columns={columns}
       data={data}
       renderModalContent={renderModalContent}
-      totalDias={30}
-      subtitle="Ejemplo de Tabla"
-      items="Datos de prueba"
+      totalDias={20}
+      subtitle="Personas Protegidas"
+      items="chalecos asignados"
       dateColumnKey="dias_habiles"
       enableColumnSearch={true}
     />
   );
 }
+```
 
-export default App;
+---
+
+## 💡 Consideraciones Técnicas
+
+- Usa `useEffect`, `useState`, `useMemo` para optimizaciones  
+- Requiere `bootstrap` para estilos y `lottie-react` para animaciones  
+- Compatible con React ≥ 18
+
+---
+
+## 📄 Licencia
+
+MIT © [Viviana Pérez Ruiz](mailto:viviana.perez@unp.gov.co)
 
 
 
