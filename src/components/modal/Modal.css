@@ -1,0 +1,163 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-overlay.hide {
+  opacity: 0;
+  visibility: none;
+}
+
+.modal-container {
+  width: 42%;
+  height: 95vh;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transform: translateX(100%);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  border-radius: 12px;
+  margin: 1.75em;
+}
+
+.modal-container.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.modal-container.hide {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* Brakepoints para el ancho del modal */
+@media (max-width: 1920px) {
+  .modal-container {
+    width: 40% !important;
+  }
+}
+
+@media (max-width: 1800px) {
+  .modal-container {
+    width: 42.5% !important;
+  }
+}
+
+@media (max-width: 1650px) {
+  .modal-container {
+    width: 45% !important;
+  }
+}
+
+@media (max-width: 1500px) {
+  .modal-container {
+    width: 50% !important;
+  }
+}
+
+@media (max-width: 1425px) {
+  .modal-container {
+    width: 55% !important;
+  }
+}
+
+@media (max-width: 1275px) {
+  .modal-container {
+    width: 57.5% !important;
+  }
+}
+
+@media (max-width: 1150px) {
+  .modal-container {
+    width: 60% !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .modal-container {
+    width: 70% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 80% !important;
+  }
+}
+
+.modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: #303D50;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal_body {
+  padding-top: 1.25rem;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  padding-bottom: 1rem;
+  height: calc(100% - 56px);
+  border-radius: 0 0 12px 12px;
+  overflow-y: auto;
+}
+
+.close_button {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: white;
+}
+
+.close_button:hover {
+  color: #D36269;
+}
+
+.unp-row-subtitle {
+  margin-bottom: 4rem;
+}
+
+.modal_subtitle_container {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 18px;
+  font-weight: 400;
+  align-items: center;
+}
+
+.modal_body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal_body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal_body::-webkit-scrollbar-thumb {
+  background-color: #303D50;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}

@@ -1,18 +1,19 @@
 import './App.css';
-import { BootstrapTable } from './components/tabla';
 import { VentanaLienzo } from 'eco-unp/ui';
+import { TablaRegistros } from './components/TablaRegistros';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
 
 
   const columns = [
-    { key: "no_orden", label: "No de Orden", hasModal: true},
+    { key: "no_orden", label: "No de Orden", hasModal: true },
     { key: "nombre_evaluado", label: "Grupo evaluado", hasModal: true },
     { key: "id_evaluado", label: "Identificación" },
     { key: "fecha_asignacion", label: "Fecha de asignación" },
     { key: "dias_habiles", label: "Días hábiles" },
-    { key: "poblacion", label: "Población" },
-    { key: "tipo_estudio", label: "Tipo de estudio", hasModal: true  }
+    { key: "poblacion", label: "Población", redirectTo: (row:any) => `/prueba/ecosistema/${row.id_evaluado}` },
+    { key: "tipo_estudio", label: "Tipo de estudio", hasModal: true }
   ];
 
   const data = [
@@ -88,17 +89,25 @@ function App() {
 
   return (
     <>
-      <VentanaLienzo>
-        <div>
-          <BootstrapTable
-            columns={columns}
-            data={data}
-            renderModalContent={renderModalContent}
-            totalDias={50} subtitle={'Subdirección de Evaluación de Riesgo'} 
-            items={'Órdenes de trabajo'}
-            enableColumnSearch={true} />
-        </div>
-      </VentanaLienzo>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <VentanaLienzo>
+              <TablaRegistros
+                columns={columns}
+                data={data}
+                renderModalContent={renderModalContent}
+                totalDias={50}
+                enableColumnSearch={true}
+                title="Subdirección de Evaluación de Riesgo"
+                subtitle="Órdenes de trabajo"
+                enableColumnSorter={true}
+              />
+            </VentanaLienzo>
+          }
+        />
+      </Routes>
     </>
   )
 }
